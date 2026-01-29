@@ -1,169 +1,27 @@
-const char INDEX_HTML[] PROGMEM = R"=====(
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-    :root {
-        --bg-paper: #d2c5b3;
-        --tag-brown: #9b7653;
-        --sketch-black: #1a1a1a;
-        --mumei-white: #ffffff;
-    }
+#ifndef WEB_INDEX_H
+#define WEB_INDEX_H
 
-    body { 
-        background-color: var(--bg-paper); 
-        color: var(--sketch-black);
-        font-family: "Comic Relief", "Comic Sans MS", cursive;
-        margin: 0; padding: 15px;
-        background-image: radial-gradient(#b5a896 1px, transparent 1px);
-        background-size: 20px 20px;
-    }
-
-    /* Tab Bar theo kiểu thẻ tag đính kèm */
-    .tab-bar {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: -5px; /* Ép sát vào card bên dưới */
-        z-index: 10;
-        position: relative;
-    }
-
-    .tab-item {
-        background: var(--tag-brown);
-        color: white;
-        padding: 8px 15px;
-        border: 3px solid var(--sketch-black);
-        border-bottom: none;
-        border-radius: 15px 15px 0 0;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: bold;
-        transform: translateY(5px);
-        transition: 0.2s;
-    }
-
-    .tab-item.active {
-        background: var(--mumei-white);
-        color: var(--sketch-black);
-        transform: translateY(0px);
-        padding-top: 12px;
-    }
-
-    .sketch-card {
-        background: var(--mumei-white);
-        border: 4px solid var(--sketch-black);
-        border-radius: 0 0 35px 35px; /* Chỉ bo góc dưới */
-        padding: 20px;
-        min-height: 250px;
-        box-shadow: 8px 8px 0px var(--tag-brown);
-    }
-
-    /* Nội dung các tab */
-    .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.3s; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    /* List SSID kiểu sketch */
-    .ssid-list { text-align: left; margin-top: 10px; }
-    .ssid-item {
-        border-bottom: 2px dashed #ccc;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .btn {
-        width: 100%;
-        background: var(--mumei-white);
-        border: 3px solid var(--sketch-black);
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 20px;
-        font-family: inherit;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 4px 4px 0px var(--sketch-black);
-    }
-
-    .btn:active { transform: translate(2px, 2px); box-shadow: none; }
-    
-    #console {
-        margin-top: 20px;
-        background: rgba(255,255,255,0.4);
-        border: 2px dashed var(--sketch-black);
-        height: 80px; padding: 10px; font-size: 11px;
-        overflow-y: auto; border-radius: 15px;
-    }
-</style>
-</head>
-<body>
-
-<div class="tab-bar">
-    <div class="tab-item active" onclick="openTab(event, 'tab-ssid')">SSID</div>
-    <div class="tab-item" onclick="openTab(event, 'tab-deauth')">DEAUTH</div>
-    <div class="tab-item" onclick="openTab(event, 'tab-attack')">ATTACK</div>
-</div>
-
-<div class="sketch-card">
-    <div id="tab-ssid" class="tab-content active">
-        <button class="btn" onclick="api('scan')">✎ SCAN NETWORKS</button>
-        <div class="ssid-list">
-            <div class="ssid-item"><span>Target_01</span> <span>-65dBm</span></div>
-            <div class="ssid-item"><span>Target_02</span> <span>-72dBm</span></div>
-        </div>
-    </div>
-
-    <div id="tab-deauth" class="tab-content">
-        <h3 style="text-align:center">SETTINGS</h3>
-        <label><input type="checkbox" checked disabled> AUTOSAVE ENABLED</label><br><br>
-        <button class="btn" onclick="api('fan')">🌀 TOGGLE FAN</button>
-        <p style="font-size: 12px; color: #666;">*AutoSave sẽ tự động thực hiện mỗi khi toggle.</p>
-    </div>
-
-    <div id="tab-attack" class="tab-content">
-        <div style="text-align:center; padding: 20px;">
-            <div style="font-size: 40px;">☠</div>
-            <p>WARNING: Civilized mode is OFF</p>
-            <button class="btn" style="color:red; border-color:red" onclick="api('attack')">EXECUTE ATTACK</button>
-        </div>
-    </div>
-</div>
-
-<div id="console">
-    <div>> Initializing Tabs...</div>
-</div>
-
+const char INDEX_HTML[] PROGMEM = R"rawliteral(
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>:root{--bg:#d2c5b3;--tag:#9b7653;--ink:#1a1a1a;--paper:#fff}body{background:var(--bg);color:var(--ink);font-family:"Comic Sans MS",cursive;margin:0;padding:10px;background-image:radial-gradient(#b5a896 1px,transparent 1px);background-size:20px 20px;overflow-x:hidden}#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--paper);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}.owl-logo{font-size:80px;animation:b 2s infinite}@keyframes b{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}.l-bar{width:150px;height:6px;background:#eee;border-radius:10px;margin-top:20px;overflow:hidden;border:2px solid var(--ink)}.l-fill{width:0;height:100%;background:var(--tag);animation:f 2.5s forwards}@keyframes f{to{width:100%}}#warning-box{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:100;display:none;align-items:center;justify-content:center}.sketch-card{background:var(--paper);border:4px solid var(--ink);border-radius:35px;padding:25px;margin:15px;max-width:450px;box-shadow:8px 8px 0 var(--tag);text-align:center}#ui-wrapper{display:none}.tab-bar{display:flex;justify-content:space-around;margin-bottom:-4px;position:relative;z-index:10}.tab{background:var(--tag);color:#fff;padding:10px;border:3px solid var(--ink);border-bottom:none;border-radius:15px 15px 0 0;cursor:pointer;flex:1;text-align:center;font-weight:700}.tab.active{background:var(--paper);color:var(--ink);padding-top:15px}#main-card{background:var(--paper);border:4px solid var(--ink);border-radius:0 0 30px 30px;padding:15px;min-height:400px;box-shadow:8px 8px 0 var(--tag)}.content{display:none}.content.active{display:block;animation:fadeIn .3s}@keyframes fadeIn{from{opacity:0}to{opacity:1}}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}th{background:var(--tag);color:#fff;padding:8px;border:2px solid var(--ink)}td{padding:10px;border-bottom:2px dashed var(--ink);text-align:center}.btn{width:100%;background:var(--paper);border:3px solid var(--ink);padding:12px;margin:5px 0;border-radius:20px;font-family:inherit;font-weight:700;box-shadow:4px 4px 0 var(--ink);cursor:pointer}.btn:active{transform:translate(2px,2px);box-shadow:none}#debug-console{background:#222;color:#0f0;border:2px solid var(--ink);height:100px;padding:8px;font-family:monospace;font-size:11px;overflow-y:auto;margin-top:15px;border-radius:15px}</style>
+</head><body>
+<div id="splash"><div class="owl-logo">🦉</div><div style="font-weight:700;font-size:20px">NANASHI SYSTEM</div><div class="l-bar"><div class="l-fill"></div></div></div>
+<div id="warning-box"><div class="sketch-card"><h2 style="color:#a30000">⚠️ WARNING</h2><p>Repo: <b>modcoderpack-redevelop</b></p><button class="btn" onclick="enterUI()">I UNDERSTAND</button></div></div>
+<div id="ui-wrapper"><div class="tab-bar"><div class="tab active" onclick="showTab('scan')">SCAN</div><div class="tab" onclick="showTab('attack')">ATTACK</div><div class="tab" onclick="showTab('config')">CONFIG</div></div>
+<div id="main-card">
+<div id="scan-page" class="content active"><button class="btn" onclick="doScan()">✎ SCAN ACCESS POINTS</button><table><thead><tr><th>SSID</th><th>Ch</th><th>RSSI</th></tr></thead><tbody id="ap-list"></tbody></table></div>
+<div id="attack-page" class="content"><div style="text-align:center;padding:20px"><span style="font-size:60px">☠</span><h3>Attack Control</h3><button class="btn" style="color:red;border-color:red" onclick="doAttack()">EXECUTE DEAUTH</button></div></div>
+<div id="config-page" class="content"><p>● AutoSave: <span style="color:green">ENABLED [2026-01-02]</span></p><p>● Firmware: modcoderpack-redevelop</p></div>
+<div id="debug-console">> Initializing...</div></div></div>
 <script>
-    function openTab(evt, tabId) {
-        var i, content, tabs;
-        content = document.getElementsByClassName("tab-content");
-        for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
-        tabs = document.getElementsByClassName("tab-item");
-        for (i = 0; i < tabs.length; i++) { tabs[i].classList.remove("active"); }
-        document.getElementById(tabId).classList.add("active");
-        evt.currentTarget.classList.add("active");
-        addLog("Switched to " + tabId.replace('tab-', '').toUpperCase());
-    }
+const $=id=>document.getElementById(id);
+window.onload=()=>{setTimeout(()=>{$('splash').style.opacity=0;setTimeout(()=>{$('splash').style.display='none';$('warning-box').style.display='flex'},600)},2500)};
+function showTab(n){document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));$(n+'-page').classList.add('active');log("Tab: "+n.toUpperCase())}
+function enterUI(){$('warning-box').style.display='none';$('ui-wrapper').style.display='block';log("UI Loaded.")}
+function log(m){const c=$('debug-console');c.innerHTML+=`<div>[${new Date().toLocaleTimeString()}] ${m}</div>`;c.scrollTop=c.scrollHeight}
+function doScan(){log("Scanning...");fetch('/api/scan').then(r=>r.json()).then(d=>{let h="";d.forEach(a=>{h+=`<tr><td>${a.s}</td><td>${a.c}</td><td>${a.r}</td></tr>`});$('ap-list').innerHTML=h;log("Scan Done.")})}
+function doAttack(){fetch('/api/attack').then(r=>r.text()).then(d=>{log("Attack: "+d);document.body.style.background=d=="ON"?"#f4d3d3":"#d2c5b3"})}
+</script></body></html>
+)rawliteral";
 
-    function addLog(m) {
-        const c = document.getElementById('console');
-        c.innerHTML += `<div>> ${m}</div>`;
-        c.scrollTop = c.scrollHeight;
-    }
-
-    function api(cmd) {
-        addLog("Executing: " + cmd);
-        if(cmd === 'attack') {
-            document.body.style.backgroundColor = '#f4d3d3';
-            setTimeout(()=>document.body.style.backgroundColor = '#d2c5b3', 500);
-        }
-        // Giả lập AutoSave
-        setTimeout(() => addLog("AutoSave: Memory updated."), 600);
-    }
-</script>
-
-</body>
-</html>
-)=====";
+#endif
